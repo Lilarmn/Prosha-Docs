@@ -1,0 +1,31 @@
+
+Full Backup
+- Takes a complete snapshot of the entire database, including all data and transaction logs.
+- It’s the foundation for other backups.
+- Example: BACKUP DATABASE MyDB TO DISK = 'C:\backup\MyDB_Full.bak'
+
+Differential Backup 
+- Backs up only the changes made since the last full backup (not the last differential).
+- Smaller and faster than a full backup.
+- Requires the last full backup for restore.
+- Example: BACKUP DATABASE MyDB TO DISK = 'C:\backup\MyDB_Diff.bak' WITH DIFFERENTIAL
+
+Transaction Log Backup 
+- Captures all transactions since the last log backup.
+- Helps in point-in-time recovery (useful for disaster recovery).
+- Requires full recovery model enabled.
+- Example: BACKUP LOG MyDB TO DISK = 'C:\backup\MyDB_Log.trn'
+
+Shrink 
+- means compress data base without losing data
+
+```
+BACKUP LOG [YourDatabase] 
+TO DISK = 'D:\Backup\YourDatabase_Log.trn'
+WITH INIT, COMPRESSION;
+
+DBCC SHRINKFILE('YourDatabase_Log', 0);
+
+-- 0 : mean the maximum compress as you can while not losing data
+```
+

@@ -1,0 +1,44 @@
+______________________________________________________
+1. Stop the PosPlus Service
+	Access the Task Scheduler.
+	Locate the PosPlus service and stop it.
+
+2. Clean Task Manager using PHP CLI
+	Open your command-line interface (CLI).
+	Execute the PHP script or command to clean the Task Manager.
+
+3. Conditional Execution based on Prosha Membership
+
+	Check Membership Status: Determine if the user is a Prosha member.
+	If the user is a Prosha member:
+
+		Run both the ALTER and VIEW queries as specified in the attached document.
+
+	If the user is not a Prosha member:
+
+		Execute only the ALTER query.
+	
+
+
+
+compare the queries and also check for SANF , CODEKARBAR field of insert
+
+1. 
+2. run this query also
+```
+select *
+into Bulking..product_history_old_14031205
+from ProductsHistory
+
+delete
+from ProductsHistory
+```
+
+6. rename old posplus  file to posplus  + datetime.now()
+7. copy .ENV file of old to new
+8. run this command into posplus  file
+```
+C:\php artisan optimize
+```
+
+9. start the task job

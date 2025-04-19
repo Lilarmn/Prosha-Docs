@@ -1,0 +1,6 @@
+- download necessary files from share / public / فنی 
+- installer file include nssm and php 
+- extract them into C: drive 
+- edit batfile of installer and replace system ip in line 69 
+- from database moadian delete Personal table 
+- run as admin installer.ps1

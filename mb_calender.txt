@@ -1,0 +1,11 @@
+- press Win  + R 
+- type regsvr32 ______
+- in _____ field you should drag and drop MB calendar file that in 
+- C:\Prosha\..
+
+- if you get error while running regsvr32 do this way :
+		login with administrator account 
+		- If you don't find admin account :
+			computer management -> local users and groups -> users -> administrator -> Check box Account Disable -> set pasword :
+			- if it have password:
+				enter 123456

@@ -1,0 +1,85 @@
+USE [proshadb04]
+GO
+/****** Object:  StoredProcedure [dbo].[PspInsertPDAInvoiceOrder]    Script Date: 14/04/2025 01:31:47 ب.ظ ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER procedure [dbo].[PspInsertPDAInvoiceOrder](
+	 @SellerCode numeric(18,0)
+	,@BuyerCode nvarchar(10)
+	,@SellerName nvarchar(50)
+	,@BuyerName nvarchar(250)
+	,@ExpenseType numeric(3,0)
+	,@State TINYINT
+	,@RcvDate nchar(10)
+	,@RcvTime nchar(8)
+	,@comment nvarchar(250)
+	,@SellerTelNO nchar(11)
+	,@SaleType CHAR(1)
+	,@Lat nvarchar(50)
+	,@Long nvarchar(50)
+	,@Time nvarchar(10)
+    ,@FGuId nvarchar(50)
+    ,@Rooz Int
+	,@DeviceId nvarchar(50)
+	,@GHK	INT
+	,@FreightID nvarchar(50)=Null
+)
+As
+Begin
+
+if @SellerCode = '0' or len(@SellerName) < 1 or len(@SellerTelNO) < 1 or len(@BuyerName) <  1 
+BEGIN
+	Select 0
+	RETURN 0
+END
+
+INSERT INTO [PDA].[TabletInvoiceOrder]
+    ([SellerCode]
+    ,[BuyerCode]
+    ,[SellerName]
+    ,[BuyerName]
+    ,[ExpenseType]
+    ,[State]
+    ,[RcvDate]
+    ,[RcvTime]
+    ,[comment]
+    ,[SellerTelNO]
+	,[SaleType]
+	,Long
+	,lat
+	,[Time] 
+    ,FGuId
+    ,Rooz
+	,DeviceId
+	,GHK
+	,FreightID
+    )
+VALUES
+    (@SellerCode 
+	,@BuyerCode 
+	,@SellerName 
+	,@BuyerName
+	,@ExpenseType 
+	,@State 
+	--,@RcvDate
+	,(SELECT replace(Cast(DATEADD(DAY, -1, CAST(@RcvDate AS DATE)) as nvarchar(10)) ,  N'-' , N'/') RcvDate)
+	,@RcvTime 
+	,@comment 
+	,@SellerTelNO
+	,@SaleType
+	,@Long
+	,@Lat
+	,@Time 
+    ,@FGuId
+    ,@Rooz
+	,@DeviceId
+	,@GHK
+	,@FreightID
+	)
+
+    SELECT IDENT_CURRENT('[PDA].[TabletInvoiceOrder]')
+	--SELECT @@IDENTITY
+
+End

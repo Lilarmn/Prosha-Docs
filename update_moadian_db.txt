@@ -1,0 +1,15 @@
+
+get backup from moadian
+replace proshadb
+replace view ,procs function
+
+```
+select *
+into status_invoice_1403_14040120
+from status_invoice
+select *
+into status_return_invoice_1403_14040120
+from status_return_invoice
+truncate  table status_invoice
+truncate  table status_return_invoice
+```

@@ -1,0 +1,23 @@
+ Query : 
+```
+Insert Into REPORTENTITY(ReportTitle, ReportProcedure, Module, Status, PriceSum)
+Select N'REPORT_TITLE' AS ReportTitle,
+      'STORED_PROCEDURE_NAME' AS ReportProcedure,
+      'Acc' AS Module,
+       1 AS Status,
+       '' AS PriceSum
+    
+If Not Exists(
+	Select *
+	from dbo.REPORTCOLUMNENTITY  
+	Where ReportId = (
+					Select ReportId
+					from REPORTENTITY 
+					Where ReportProcedure = 'STORED_PROCEDURE_NAME' and ReportTitle = N'REPORT_TITLE'
+					) 
+	)
+Insert Into REPORTCOLUMNENTITY(ReportId, ReportColumnTitle, ReportColumnName, DefaultValue, Sort)
+Select (Select ReportId from REPORTENTITY Where ReportProcedure = 'STORED_PROCEDURE_NAME'), N'COLOMN_NAME', '@ PARAMETER_NAME','DEFAULT_VALUE' ,1
+union
+...
+```
