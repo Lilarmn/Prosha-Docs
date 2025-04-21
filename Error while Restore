@@ -1,0 +1,9 @@
+take script from backup and comment line Log
+
+USE [master]
+--BACKUP LOG [Proshadb04] TO  DISK = N'C:\Program Files\Microsoft SQL Server\MSSQL12.PROSHA\MSSQL\Backup\Proshadb04_LogBackup_2025-04-21_16-45-12.bak' WITH NOFORMAT, NOINIT,  NAME = N'Proshadb04_LogBackup_2025-04-21_16-45-12', NOSKIP, NOREWIND, NOUNLOAD,  NORECOVERY ,  STATS = 5
+RESTORE DATABASE [Proshadb01] FROM  DISK = N'E:\Backups\ProshaDb04_14040201_setare_khorshid.bak' WITH  FILE = 1,  MOVE N'ProshaPrimary' TO N'E:\Backups\khorshid\proshadb04.MDF',  MOVE N'ProshaACC' TO N'E:\Backups\khorshid\ProshaACC04.ndf',  MOVE N'ProshaGNR' TO N'E:\Backups\khorshid\ProshaGNR04.ndf',  MOVE N'ProshaPda' TO N'E:\Backups\khorshid\ProshaPda04.ndf',  MOVE N'ProshaSale' TO N'E:\Backups\khorshid\ProshaSale04.ndf',  MOVE N'ProshaTRE' TO N'E:\Backups\khorshid\ProshaTRE04.ndf',  MOVE N'ProshaLog' TO N'E:\Backups\khorshid\proshadb04.LDF',  NOUNLOAD,  STATS = 5
+
+GO
+
+
