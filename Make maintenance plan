@@ -1,0 +1,152 @@
+
+مرحله اول: فعال‌سازی پیش‌نیازها
+1. فعال‌سازی Agent XPs
+sql
+Copy
+Edit
+sp_configure 'Agent XPs', 1;
+RECONFIGURE;
+این دستور برای فعال‌سازی امکانات SQL Server Agent در سرور لازم است.
+
+2. بررسی وضعیت SQL Server Agent
+در صورت مشاهده خطا در ایجاد Maintenance Plan، احتمال دارد سرویس SQL Server Agent متوقف باشد. برای فعال‌سازی آن:
+
+وارد SQL Server Management Studio شوید.
+
+از پنجره Object Explorer روی SQL Server Agent راست کلیک کرده و گزینه Start را بزنید.
+
+مرحله دوم: ایجاد Maintenance Plan
+از فولدر Management گزینه Maintenance Plans را انتخاب کنید.
+
+با راست‌کلیک و انتخاب New Maintenance Plan، یک پلن جدید بسازید و نام مناسبی برای آن انتخاب کنید (مثلاً: Master Maintenance Plan).
+
+Subplan: Every Night (اجرای شبانه)
+1. Check Database Integrity Task
+بررسی صحت فیزیکی و منطقی ساختار دیتابیس‌ها.
+
+تنظیمات:
+
+روی Task راست‌کلیک و گزینه Edit را انتخاب کنید.
+
+در قسمت Connection، اتصال به SQL Server را انتخاب کنید.
+
+گزینه All Databases را انتخاب نمایید.
+
+تیک Ignore databases where the state is not online را بزنید.
+
+2. Rebuild Index Task
+برای دیتابیس‌های مربوط به پروژه سال جاری اجرا شود.
+
+تنظیم فضای خالی هر صفحه:
+
+گزینه Change free space per page to را انتخاب کرده و مقدار 20% وارد نمایید.
+
+3. Update Statistics Task
+آمار داده‌ها به بهینه‌سازی اجرای Queryها کمک می‌کند.
+
+تنظیمات:
+
+انتخاب All Databases.
+
+اجرا فقط در شب برای جلوگیری از کند شدن سیستم در ساعات کاری.
+
+4. Backup Database Task
+گرفتن Full Backup از همه دیتابیس‌ها.
+
+تنظیمات:
+
+در بخش Backup type گزینه Full را انتخاب کنید.
+
+All Databases و Backup to Disk را انتخاب نمایید.
+
+مسیر ذخیره فایل‌های بک‌آپ را تعیین کنید.
+
+گزینه Create a sub-directory for each database را فعال کنید.
+
+در صفحه Options تنظیمات زیر را بررسی و در صورت نیاز فعال نمایید:
+
+Compress Backup
+
+Perform checksum
+
+Continue on error
+
+Backup encryption (در صورت نیاز به رمزگذاری)
+
+گزینه‌های Block Size و Max Transfer Size را معمولا به حالت پیش‌فرض بگذارید، مگر در شرایط خاص.
+
+5. History Cleanup Task
+پاک‌سازی سوابق قدیمی برای جلوگیری از افزایش بی‌رویه حجم اطلاعات:
+
+فعال‌سازی گزینه‌های:
+
+Backup and restore history
+
+SQL Server Agent job history
+
+Maintenance plan history
+
+تعیین مدت‌زمان نگهداری سابقه (مثلاً 14 روز)
+
+6. Maintenance Cleanup Task
+حذف بک‌آپ‌های قدیمی:
+
+وابسته به موفقیت‌آمیز بودن Task بک‌آپ (شرط Success).
+
+انتخاب نوع فایل: Backup files
+
+تعیین مسیر فایل‌ها و فعال‌سازی گزینه Include first-level subfolders
+
+مشخص کردن پسوند فایل‌ها (مثلاً .bak)
+
+تعیین مدت نگهداری فایل‌ها (مثلاً 7 روز)
+
+⚠ پس از اضافه کردن هر Task، آن را با خط به Task قبلی وصل کنید تا ترتیب اجرای آن رعایت شود؛ در غیر این صورت به‌صورت موازی اجرا خواهند شد.
+
+Subplan: Every Half an Hour (هر نیم ساعت)
+هدف: گرفتن Transaction Log Backup
+افزودن Backup Database Task و انتخاب نوع بک‌آپ: Transaction Log
+
+انتخاب گزینه All Databases (SQL Server به‌طور خودکار دیتابیس‌های با مدل Simple را مستثنی می‌کند)
+
+تعیین مسیر ذخیره فایل‌ها
+
+انجام تنظیمات مشابه صفحه Options در پلن Every Night
+
+افزودن Maintenance Cleanup Task برای حذف لاگ‌های قدیمی
+
+تعیین مدت نگهداری مطابق با مدت نگهداری Full Backup
+
+Subplan: Every Hour (هر ساعت)
+هدف: گرفتن Differential Backup
+استفاده از Backup Database Task با انتخاب Differential به عنوان نوع بک‌آپ
+
+انتخاب گزینه All Databases
+
+تعیین مسیر فایل خروجی و پسوند فایل (مثلاً diff)
+
+تنظیمات مشابه با پلن Every Night در قسمت Options
+
+افزودن Maintenance Cleanup Task برای پاک‌سازی بک‌آپ‌های قدیمی
+
+تعیین مدت نگهداری مطابق با سایر پلن‌های بک‌آپ
+
+بعد از ساخت Maintenance Plan
+پس از ذخیره پلن‌ها، در بخش SQL Server Agent > Jobs، سه Job با نام‌های زیر ایجاد می‌شود:
+
+Master Plan Every Night
+
+Master Plan Every Hour
+
+Master Plan Every Half
+
+پیشنهاد می‌شود برای اعمال تغییرات، از Maintenance Plan Designer استفاده کنید نه مستقیماً از بخش Jobs.
+
+گزارش‌گیری و مدیریت لاگ‌ها
+آیکون Reporting and Logging در بالای Maintenance Plan امکان ذخیره لاگ در فایل متنی را فراهم می‌کند.
+
+با گذشت زمان این فایل‌ها می‌توانند فضای زیادی اشغال کنند. راهکار:
+
+غیرفعال کردن گزینه Generate a text file report
+
+یا استفاده از Maintenance Cleanup Task با انتخاب Maintenance Plan text reports برای پاک‌سازی لاگ‌های قدیمی
