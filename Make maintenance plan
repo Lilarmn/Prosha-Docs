@@ -1,4 +1,4 @@
-#SQL Server Maintenance Plan Documentation
+# SQL Server Maintenance Plan Documentation
 This document outlines how to create and configure a robust SQL Server Maintenance Plan to ensure the health, performance, and reliability of your databases. The plan includes nightly integrity checks, index maintenance, backups, and cleanup tasks.
 
 🛠 Prerequisites
