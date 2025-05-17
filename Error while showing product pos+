@@ -1,0 +1,18 @@
+select * from ProductsHistory
+where referral_id = ''
+
+select * from job_trackers
+
+
+select * from ProductsCompare
+where referral_id = ''
+
+
+delete from ProductsHistory
+where referral_id = ''
+
+delete from job_trackers
+
+
+select * from ProductsCompare
+where referral_id = ''
