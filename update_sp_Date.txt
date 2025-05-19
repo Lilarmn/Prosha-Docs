@@ -64,7 +64,8 @@ VALUES
 	,@ExpenseType 
 	,@State 
 	--,@RcvDate
-	,(SELECT replace(Cast(DATEADD(DAY, -1, CAST(@RcvDate AS DATE)) as nvarchar(10)) ,  N'-' , N'/') RcvDate)
+	--,(SELECT replace(Cast(DATEADD(DAY, -1, CAST(@RcvDate AS DATE)) as nvarchar(10)) ,  N'-' , N'/') RcvDate)
+, FORMAT(GETDATE(), 'yyyy/MM/dd', 'fa')
 	,@RcvTime 
 	,@comment 
 	,@SellerTelNO
