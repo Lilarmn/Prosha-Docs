@@ -1,19 +1,19 @@
-Install robot
+نصب ربات
 
-Monday, 19 May 2025
-12:17 pm
+دوشنبه، 29 اردیبهشت 1404
+ساعت 12:17
 
-	1. CATCH LAST VERSION OF ROBOT FROM فنی  SHARE
-	2. Backup from posplus old version
-	3. Change panel to cloud
-	4. Stop task scheduler
-	5. Task manager end task CLI PHP
-	6. Move old files
-	7. Move old ENV to \robbot
-	8. \robbot : Comment app comment , Del database migrations
-	9. Edit config installer [notice path and ip]
-	10. Update Script posplus
-	11. Remove - stock - store + pay_tax in products vw,sp,table
-	12. Run installer 
-	13. Check services
-  14. Check status job_trackers
+1. دریافت آخرین نسخه ربات از فنی SHARE
+2. پشتیبان‌گیری از نسخه قدیمی posplus
+3. تغییر پنل به cloud
+4. متوقف کردن task scheduler
+5. بستن task CLI PHP در task manager
+6. انتقال فایل‌های قدیمی
+7. انتقال ENV قدیمی به robbot\
+8. robbot\: کامنت برنامه را کامنت کنید، حذف database migrations
+9. ویرایش config installer [توجه به مسیر و آی‌پی]
+10. به‌روزرسانی Script posplus
+11. حذف stock - store - + pay_tax در products vw,sp,table
+12. اجرای installer
+13. بررسی services
+14. بررسی وضعیت job_trackers
