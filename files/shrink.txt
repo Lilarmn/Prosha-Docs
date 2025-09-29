@@ -20,6 +20,7 @@ Shrink
 - means compress data base without losing data
 
 ```
+برطرف مشکل شرینک
 BACKUP LOG [YourDatabase] 
 TO DISK = 'D:\Backup\YourDatabase_Log.trn'
 WITH INIT, COMPRESSION;
