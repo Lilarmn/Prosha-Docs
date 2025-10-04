@@ -25,7 +25,12 @@ BACKUP LOG [YourDatabase]
 TO DISK = 'D:\Backup\YourDatabase_Log.trn'
 WITH INIT, COMPRESSION;
 
-DBCC SHRINKFILE('YourDatabase_Log', 0);
+GO
+SELECT file_id, name, physical_name, type_desc
+FROM sys.database_files; -- here return a log file name and you should put it on below query 
+GO
+
+DBCC SHRINKFILE('YourDatabase_Log', 0); 
 
 -- 0 : mean the maximum compress as you can while not losing data
 ```
